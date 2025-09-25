@@ -30,67 +30,18 @@ jobs:
     - name: Run Lighthouse tests
       run: npm run test-pages
       
-    - name: Build Speedlify site
-      run: npm run build
+    - name: Generate API files
+      run: npm run generate-api
       
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main'
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./_site
-        
-    - name: Generate performance JSON for API
+    - name: Commit and push results
       run: |
-        mkdir -p ./api
-        node -e "
-          const fs = require('fs');
-          const path = require('path');
-          
-          // Buscar el archivo de resultados más reciente
-          const resultsDir = './_data/results';
-          if (fs.existsSync(resultsDir)) {
-            const sites = fs.readdirSync(resultsDir);
-            
-            sites.forEach(siteId => {
-              const siteDir = path.join(resultsDir, siteId);
-              const files = fs.readdirSync(siteDir);
-              const latestFile = files.sort().pop();
-              
-              if (latestFile) {
-                const data = JSON.parse(fs.readFileSync(path.join(siteDir, latestFile), 'utf8'));
-                
-                // Crear JSON simplificado para la API
-                const apiData = {
-                  url: data.url,
-                  timestamp: data.timestamp,
-                  lighthouse: {
-                    performance: Math.round(data.lighthouse.performance * 100),
-                    accessibility: Math.round(data.lighthouse.accessibility * 100),
-                    bestPractices: Math.round(data.lighthouse.bestPractices * 100),
-                    seo: Math.round(data.lighthouse.seo * 100),
-                    pwa: Math.round(data.lighthouse.pwa * 100)
-                  },
-                  firstContentfulPaint: data.firstContentfulPaint,
-                  largestContentfulPaint: data.largestContentfulPaint,
-                  cumulativeLayoutShift: data.cumulativeLayoutShift,
-                  totalBlockingTime: data.totalBlockingTime,
-                  speedIndex: data.speedIndex
-                };
-                
-                // Guardar como archivo API
-                const filename = data.url.includes('/cv') ? 'cv.json' : 'portfolio.json';
-                fs.writeFileSync(path.join('./api', filename), JSON.stringify(apiData, null, 2));
-              }
-            });
-          }
-        "
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add _data/results/ api/
+        git diff --staged --quiet || git commit -m "Update performance results [skip ci]"
+        git push
         
-    - name: Deploy API files
-      uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main'
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./api
-        destination_dir: api
-        keep_files: false
+    - name: Trigger Netlify Build
+      if: success()
+      run: |
+        curl -X POST -d {} ${{ secrets.NETLIFY_BUILD_HOOK }}
