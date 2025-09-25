@@ -1,0 +1,66 @@
+{
+  "url": "https://www.karenortiz.space/resume",
+  "requestedUrl": "https://www.karenortiz.space/resume",
+  "timestamp": 1758816587659,
+  "ranks": {
+    "hundos": 1,
+    "performance": 1,
+    "accessibility": 2,
+    "cumulative": 1
+  },
+  "lighthouse": {
+    "version": "12.8.2",
+    "performance": 0.71,
+    "accessibility": 0.9,
+    "bestPractices": 0.96,
+    "seo": 1,
+    "total": 357
+  },
+  "firstContentfulPaint": 1575.143,
+  "speedIndex": 29119.74813600029,
+  "largestContentfulPaint": 4245.143,
+  "totalBlockingTime": 221,
+  "cumulativeLayoutShift": 0,
+  "timeToInteractive": 4245.143,
+  "maxPotentialFirstInputDelay": 271,
+  "timeToFirstByte": 66.826,
+  "weight": {
+    "summary": "36 requests • 589.5 KiB",
+    "total": 603637,
+    "image": 0,
+    "imageCount": 0,
+    "script": 131595,
+    "scriptCount": 22,
+    "document": 13526,
+    "font": 334027,
+    "fontCount": 5,
+    "stylesheet": 8730,
+    "stylesheetCount": 4,
+    "thirdParty": 0,
+    "thirdPartyCount": 1
+  },
+  "run": {
+    "number": 3,
+    "total": 3
+  },
+  "sidequests": {
+    "-weight.total": 1,
+    "+weight.total": 2,
+    "-weight.document": 1,
+    "+weight.document": 2,
+    "-weight.script": 1,
+    "+weight.script": 2,
+    "-weight.image": 1,
+    "+weight.image": 2,
+    "-weight.font": 2,
+    "+weight.font": 1,
+    "+weight.fontCount": 1,
+    "-timeToFirstByte": 2,
+    "-totalBlockingTime": 1,
+    "-largestContentfulPaint": 1
+  },
+  "axe": {
+    "passes": 647,
+    "violations": 2
+  }
+}
