@@ -6,7 +6,7 @@ module.exports = {
 		frequency: 60 * 24, // Run once per day (in minutes)
 	},
 	urls: [
-		"https://karen-ortiz-portfolio.vercel.app/", // Main portfolio
-		"https://karen-ortiz-portfolio.vercel.app/cv", // CV page
+		"https://www.karenortiz.space/", // Main portfolio
+		"https://www.karenortiz.space/resume", // CV page
 	]
 };
