@@ -1,0 +1,16 @@
+{
+  "url": "https://www.karenortiz.space/",
+  "timestamp": 1758816402408,
+  "lighthouse": {
+    "performance": 21,
+    "accessibility": 92,
+    "bestPractices": 96,
+    "seo": 100,
+    "pwa": null
+  },
+  "firstContentfulPaint": 3.5,
+  "largestContentfulPaint": 5.6,
+  "cumulativeLayoutShift": 0.621,
+  "totalBlockingTime": 839,
+  "speedIndex": 31
+}
