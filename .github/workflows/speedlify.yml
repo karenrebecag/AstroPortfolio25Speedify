@@ -1,0 +1,96 @@
+name: Speedlify Performance Audit
+
+on:
+  schedule:
+    # Ejecutar diariamente a las 6:00 AM UTC (12:00 AM CST)
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Permitir ejecución manual
+  push:
+    branches: [ main ]
+    paths:
+      - '_data/sites/**'
+
+jobs:
+  speedlify:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run Lighthouse tests
+      run: npm run test-pages
+      
+    - name: Build Speedlify site
+      run: npm run build
+      
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.ref == 'refs/heads/main'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./_site
+        
+    - name: Generate performance JSON for API
+      run: |
+        mkdir -p ./api
+        node -e "
+          const fs = require('fs');
+          const path = require('path');
+          
+          // Buscar el archivo de resultados más reciente
+          const resultsDir = './_data/results';
+          if (fs.existsSync(resultsDir)) {
+            const sites = fs.readdirSync(resultsDir);
+            
+            sites.forEach(siteId => {
+              const siteDir = path.join(resultsDir, siteId);
+              const files = fs.readdirSync(siteDir);
+              const latestFile = files.sort().pop();
+              
+              if (latestFile) {
+                const data = JSON.parse(fs.readFileSync(path.join(siteDir, latestFile), 'utf8'));
+                
+                // Crear JSON simplificado para la API
+                const apiData = {
+                  url: data.url,
+                  timestamp: data.timestamp,
+                  lighthouse: {
+                    performance: Math.round(data.lighthouse.performance * 100),
+                    accessibility: Math.round(data.lighthouse.accessibility * 100),
+                    bestPractices: Math.round(data.lighthouse.bestPractices * 100),
+                    seo: Math.round(data.lighthouse.seo * 100),
+                    pwa: Math.round(data.lighthouse.pwa * 100)
+                  },
+                  firstContentfulPaint: data.firstContentfulPaint,
+                  largestContentfulPaint: data.largestContentfulPaint,
+                  cumulativeLayoutShift: data.cumulativeLayoutShift,
+                  totalBlockingTime: data.totalBlockingTime,
+                  speedIndex: data.speedIndex
+                };
+                
+                // Guardar como archivo API
+                const filename = data.url.includes('/cv') ? 'cv.json' : 'portfolio.json';
+                fs.writeFileSync(path.join('./api', filename), JSON.stringify(apiData, null, 2));
+              }
+            });
+          }
+        "
+        
+    - name: Deploy API files
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.ref == 'refs/heads/main'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./api
+        destination_dir: api
+        keep_files: false
