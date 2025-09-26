@@ -2,6 +2,8 @@
 
 After you make a fast web site, keep it fast by measuring it over time. Read [Use Speedlify to Continuously Measure Site Performance](https://www.zachleat.com/web/speedlify/). Created by [@zachleat](https://www.zachleat.com/).
 
+<!-- Performance test after Cloudflare R2 migration - 2025-01-26 -->
+
 * Requires Node 12+
 * Each file in `_data/sites/*.js` is a category and contains a list of sites for comparison.
 
