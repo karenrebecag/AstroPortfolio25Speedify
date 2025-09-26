@@ -3,10 +3,11 @@ module.exports = {
 	description: "Performance monitoring for Karen's portfolio and CV",
 	options: {
 		runs: 3, // Run 3 times and average the results
-		frequency: 60 * 24, // Run once per day (in minutes)
+		frequency: 60 * 23, // Run once every 23 hours (in minutes) - avoid exact 24h to prevent build conflicts
+		freshChrome: "run", // Reset Chrome state for each run
 	},
 	urls: [
 		"https://www.karenortiz.space/", // Main portfolio
-		"https://www.karenortiz.space/resume", // CV page
+		"https://www.karenortiz.space/cv", // CV page (corregido de /resume a /cv)
 	]
 };
