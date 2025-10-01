@@ -7,9 +7,15 @@ module.exports = {
 		freshChrome: "run", // Reset Chrome state for each run
 	},
 	urls: [
+
+		//Paginas Principales
 		"https://www.karenortiz.space/", // Main portfolio
-		"https://www.karenortiz.space/cv", // CV page
+		"https://www.karenortiz.space/resume", // CV page
+		"https://www.karenortiz.space/privacy", // This Portfolio project page
 		"https://www.karenortiz.space/greetings", // Greetings page
+
+		//Paginas de Proyectos
 		"https://www.karenortiz.space/p_AurinTaskManager", // Aurin Task Manager project page
+		"https://www.karenortiz.space/p_ThisPortfolio", // This Portfolio project page
 	]
 };
