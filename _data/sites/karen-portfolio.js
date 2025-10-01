@@ -3,7 +3,7 @@ module.exports = {
 	description: "Performance monitoring for Karen's portfolio, CV, and project pages",
 	options: {
 		runs: 3, // Run 3 times and average the results
-		frequency: 1, // Temporarily set to 1 minute to force immediate testing
+		frequency: 1, // Force immediate testing - Updated: 2025-10-01
 		freshChrome: "run", // Reset Chrome state for each run
 	},
 	urls: [
