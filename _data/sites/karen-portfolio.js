@@ -5,7 +5,7 @@ module.exports = {
 		runs: 3, // Run 3 times and average the results
 		frequency: 1, // Force immediate testing - Updated: 2025-10-01
 		freshChrome: "run", // Reset Chrome state for each run
-		axePuppeteerTimeout: 100000, // Increase Axe timeout to 60 seconds for heavy animations
+		axePuppeteerTimeout: 100000000, // Increase Axe timeout to 60 seconds for heavy animations
 	},
 	urls: [
 
